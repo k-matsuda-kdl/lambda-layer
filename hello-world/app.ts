@@ -1,13 +1,15 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { add } from '/opt/nodejs/add';
+import { add } from '/opt/nodejs/dist/add';
+import { minus } from '/opt/nodejs/dist/minus';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
-        const result = add(1, 2);
+        const a = add(1, 2);
+        const m = minus(2, 1);
         return {
             statusCode: 200,
             body: JSON.stringify({
-                message: 'hello world' + result,
+                message: 'hello world' + " add:" + a + " minus:" + m,
             }),
         };
     } catch (err) {

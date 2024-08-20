@@ -47,7 +47,8 @@ Resources:
         EntryPoints:
         - app.ts
         External:
-        - /opt/nodejs/add
+        - /opt/nodejs/dist/add
+        - /opt/nodejs/dist/minus
         
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
