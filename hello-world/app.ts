@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { add } from '/opt/nodejs/dist/add';
-import { minus } from '/opt/nodejs/dist/minus';
+import { add } from '/opt/nodejs/add';
+import { minus } from '/opt/nodejs/minus';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {

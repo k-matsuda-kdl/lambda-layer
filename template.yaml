@@ -22,6 +22,10 @@ Resources:
       ContentUri: layers/add-layer/
       CompatibleRuntimes:
         - nodejs20.x  # 使用するNode.jsのバージョンに合わせます
+    Metadata:
+      BuildMethod: makefile  # Makefileを使用してビルドする
+      BuildProperties:
+        Makefile: Makefile
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -47,8 +51,8 @@ Resources:
         EntryPoints:
         - app.ts
         External:
-        - /opt/nodejs/dist/add
-        - /opt/nodejs/dist/minus
+        - /opt/nodejs/add
+        - /opt/nodejs/minus
         
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
