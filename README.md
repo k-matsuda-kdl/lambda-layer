@@ -1,21 +1,50 @@
-# k-matsuda-test-layers
-TypescriptでLambdaLayerを試してみた
+# lambda-layer
+Typescript+samの環境で、共通関数をLambda Layerで管理するために試してみた。
 
-- Layerを使う方のBuildPropertiesに、Externalを追加しないと、buildしようとしてエラーになる
-- Layerの方もbuildして、jsファイルにしておかないと、正しく読み込まない
-  - Layerのbuildはtscで実施したが、esbuild使えるのか？
-- ローカルファイルは /optで読めるみたい。
+## やったこと
+- 共通関数は、/optで読み込む
+- Lambda関数のLayerを使う方のBuildPropertiesに、Externalを追加して、buildの過程で除外読み込まないようにする。
+- Layerの方もbuildが必要
+  - Layerのbuildはtscで実施した。理由は、ファイルを個別に分けるため
+- Layerもsam buildでbuildするため、Makefileでbuildするようにした
+- Makefileないで、npm installするとエラーになるので、npm ciとした
 
-## Cleanup
+## useage
+### ローカルで動かす
 
-To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
-
-```bash
-sam delete --stack-name k-matsuda-test-layers
+``` bash
+sam build
+sam local start-api
 ```
 
-## Resources
+http://127.0.0.1:3000/hello にアクセスすると`{"message":"hello world add:3 minus:1"}`と出るはず
 
-See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
+### deployして動かす
+自分の環境でdeployしてください。`samconfig.toml`は適宜調整してください（stack-nameも書かれてます）
 
-Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+``` bash
+sam build
+sam deploy
+```
+
+```
+-------------------------------------------------------------------------------------------------------------------------
+Outputs
+-------------------------------------------------------------------------------------------------------------------------
+Key                 HelloWorldFunctionIamRole                              
+Description         Implicit IAM Role created for Hello World function
+Value               arn:aws:iam::＊＊＊＊＊＊＊＊         
+
+Key                 HelloWorldApi
+Description         API Gateway endpoint URL for Prod stage for Hello World function
+Value               https://＊＊＊＊＊＊＊＊/Prod/hello/                             
+
+Key                 HelloWorldFunction
+Description         Hello World Lambda Function ARN
+Value               arn:aws:lambda:ap-northeast-1:＊＊＊＊＊＊＊＊
+-------------------------------------------------------------------------------------------------------------------------
+```
+
+URLにアクセスして、同じ表示ならdeploy完了
+
+
